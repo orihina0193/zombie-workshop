@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>アビーのゾンビ工房</title>
+<style>
+  :root {
+    --bg: #111314;
+    --panel: #1b1f20;
+    --green: #7fa65a;
+    --green-dark: #4d6b36;
+    --orange: #f28c28;
+    --text: #e8ecde;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", Meiryo, sans-serif;
+  }
+  header img {
+    display: block;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    height: auto;
+  }
+  h1 {
+    text-align: center;
+    margin: 8px 12px 12px;
+    font-size: 1.6rem;
+    color: var(--orange);
+    letter-spacing: 0.05em;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 12px 12px;
+  }
+  nav button {
+    background: var(--green-dark);
+    color: var(--text);
+    border: 2px solid var(--green);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  nav button:hover { background: var(--green); color: #111; }
+  nav button.active {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: #111;
+  }
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 12px 24px;
+  }
+  .frame-wrap {
+    background: var(--panel);
+    border: 2px solid var(--green-dark);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  iframe {
+    display: block;
+    width: 100%;
+    height: 80vh;
+    min-height: 500px;
+    border: 0;
+    background: #fff;
+  }
+  .open-link {
+    text-align: right;
+    margin: 8px 4px 0;
+    font-size: 0.85rem;
+  }
+  .open-link a { color: var(--green); }
+  footer {
+    text-align: center;
+    font-size: 0.75rem;
+    opacity: 0.6;
+    padding: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="images/zombie.png" alt="ゾンビたちが走ってくるイラスト">
+</header>
+
+<h1>アビーのゾンビ工房</h1>
+
+<nav id="tabs"></nav>
+
+<main>
+  <div class="frame-wrap">
+    <iframe id="viewer" title="ツール表示エリア"></iframe>
+  </div>
+  <div class="open-link"><a id="openLink" href="#" target="_blank" rel="noopener">このツールを単独で開く ↗</a></div>
+</main>
+
+<footer>© アビーのゾンビ工房</footer>
+
+<script>
+  // ツールを増やすときは、ここに1行足すだけ！
+  const TOOLS = [
+    { name: "WK TACTICS CONSOLE", url: "https://orihina0193.github.io/my-calculator-shortcut/" },
+    { name: "RUINS TREASURY",     url: "https://orihina0193.github.io/Ruins-Treasury/" }
+  ];
+
+  const tabs = document.getElementById("tabs");
+  const viewer = document.getElementById("viewer");
+  const openLink = document.getElementById("openLink");
+
+  function select(i) {
+    const tool = TOOLS[i];
+    viewer.src = tool.url;
+    openLink.href = tool.url;
+    [...tabs.children].forEach((b, j) => b.classList.toggle("active", j === i));
+    try { history.replaceState(null, "", "#" + i); } catch (e) {}
+  }
+
+  TOOLS.forEach((tool, i) => {
+    const b = document.createElement("button");
+    b.textContent = tool.name;
+    b.addEventListener("click", () => select(i));
+    tabs.appendChild(b);
+  });
+
+  const start = parseInt(location.hash.slice(1), 10);
+  select(start >= 0 && start < TOOLS.length ? start : 0);
+</script>
+</body>
+</html>
