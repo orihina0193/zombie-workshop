@@ -8,10 +8,13 @@
   :root {
     --bg: #111314;
     --panel: #1b1f20;
+    --panel2: #242a2b;
     --green: #7fa65a;
     --green-dark: #4d6b36;
     --orange: #f28c28;
+    --red: #d9534f;
     --text: #e8ecde;
+    --muted: #9aa392;
   }
   * { box-sizing: border-box; }
   body {
@@ -34,14 +37,25 @@
     color: var(--orange);
     letter-spacing: 0.05em;
   }
-  nav {
+  #cats, #tabs {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
-    padding: 0 12px 12px;
+    padding: 0 12px 10px;
   }
-  nav button {
+  #cats button {
+    background: transparent;
+    color: var(--green);
+    border: 2px solid var(--green-dark);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  #cats button.active { background: var(--green-dark); color: var(--text); }
+  #tabs button {
     background: var(--green-dark);
     color: var(--text);
     border: 2px solid var(--green);
@@ -51,17 +65,13 @@
     font-weight: bold;
     cursor: pointer;
   }
-  nav button:hover { background: var(--green); color: #111; }
-  nav button.active {
+  #tabs button:hover { background: var(--green); color: #111; }
+  #tabs button.active {
     background: var(--orange);
     border-color: var(--orange);
     color: #111;
   }
-  main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 12px 24px;
-  }
+  main { max-width: 1100px; margin: 0 auto; padding: 0 12px 24px; }
   .frame-wrap {
     background: var(--panel);
     border: 2px solid var(--green-dark);
@@ -76,28 +86,87 @@
     border: 0;
     background: #fff;
   }
-  .open-link {
-    text-align: right;
-    margin: 8px 4px 0;
-    font-size: 0.85rem;
-  }
+  .open-link { text-align: right; margin: 8px 4px 0; font-size: 0.85rem; }
   .open-link a { color: var(--green); }
-  footer {
-    text-align: center;
-    font-size: 0.75rem;
-    opacity: 0.6;
-    padding: 12px;
+  footer { text-align: center; font-size: 0.75rem; padding: 12px; color: var(--muted); }
+  .link-btn {
+    background: none; border: none; color: var(--muted);
+    font-size: 0.75rem; cursor: pointer; text-decoration: underline;
   }
+
+  /* ---- 管理画面 ---- */
+  #admin {
+    max-width: 1100px;
+    margin: 0 auto 32px;
+    padding: 0 12px;
+  }
+  .panel {
+    background: var(--panel);
+    border: 2px solid var(--orange);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+  .panel h2 { margin: 0 0 10px; font-size: 1.05rem; color: var(--orange); }
+  .panel h3 { margin: 0; font-size: 0.95rem; }
+  .note { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin: 6px 0 10px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .row label { font-size: 0.8rem; color: var(--muted); width: 100%; margin-bottom: -4px; }
+  input[type=text], input[type=password], select {
+    background: var(--panel2);
+    color: var(--text);
+    border: 1px solid #3a4244;
+    border-radius: 8px;
+    padding: 9px 10px;
+    font-size: 0.9rem;
+    flex: 1 1 160px;
+    min-width: 0;
+  }
+  .btn {
+    background: var(--green-dark);
+    color: var(--text);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .btn.primary { background: var(--orange); border-color: var(--orange); color: #111; }
+  .btn.danger { background: transparent; border-color: var(--red); color: var(--red); }
+  .btn.small { padding: 6px 9px; font-size: 0.8rem; }
+  .btn:disabled { opacity: 0.4; cursor: default; }
+  .cat-box {
+    background: var(--panel2);
+    border: 1px solid #3a4244;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+  .cat-head { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+  .tool-row {
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+  .tool-row .row { margin-bottom: 6px; }
+  .add-row { border-top: 1px dashed #3a4244; padding-top: 8px; margin-top: 4px; }
+  #status { font-size: 0.85rem; margin-top: 8px; white-space: pre-wrap; }
+  #status.err { color: #ff8a80; }
+  #status.ok { color: #9be07a; }
+  #dirty { color: var(--orange); font-size: 0.85rem; font-weight: bold; }
 </style>
 </head>
 <body>
 
 <header>
-  <img src="images/zombie.png" alt="ゾンビたちが走ってくるイラスト">
+  <img id="hero" src="img/zombie.png" alt="ゾンビたちが走ってくるイラスト">
 </header>
 
 <h1>アビーのゾンビ工房</h1>
 
+<div id="cats"></div>
 <nav id="tabs"></nav>
 
 <main>
@@ -107,39 +176,370 @@
   <div class="open-link"><a id="openLink" href="#" target="_blank" rel="noopener">このツールを単独で開く ↗</a></div>
 </main>
 
-<footer>© アビーのゾンビ工房</footer>
+<section id="admin" hidden></section>
+
+<footer>
+  © アビーのゾンビ工房 ／ <button id="adminToggle" class="link-btn" type="button">管理</button>
+</footer>
 
 <script>
-  // ツールを増やすときは、ここに1行足すだけ！
-  const TOOLS = [
-    { name: "WK TACTICS CONSOLE", url: "https://orihina0193.github.io/my-calculator-shortcut/" },
-    { name: "RUINS TREASURY",     url: "https://orihina0193.github.io/Ruins-Treasury/" },
-    { name: "DEPLETION CALC (VIDEO)", url: "https://orihina0193.github.io/depletion-calc/" },
-    { name: "RAT HUNT PLANNER", url: "https://orihina0193.github.io/Rat-Summoning/" },
-    { name: "SOS MAP COST", url: "https://orihina0193.github.io/FAKE-SOS-MAP/" }
-];
+(function () {
+  "use strict";
 
-  const tabs = document.getElementById("tabs");
-  const viewer = document.getElementById("viewer");
-  const openLink = document.getElementById("openLink");
+  /* ============ 設定 ============ */
+  const DEFAULT_CFG = { owner: "orihina0193", repo: "zombie-workshop", path: "tools.json", token: "" };
+  const LS_KEY = "zombie_workshop_admin_v1";
 
-  function select(i) {
-    const tool = TOOLS[i];
-    viewer.src = tool.url;
-    openLink.href = tool.url;
-    [...tabs.children].forEach((b, j) => b.classList.toggle("active", j === i));
-    try { history.replaceState(null, "", "#" + i); } catch (e) {}
+  // tools.json が読めないときの予備データ
+  const FALLBACK = { categories: [ { id: "main", name: "TOOLS", tools: [
+    { id: "wk-tactics-console", name: "WK TACTICS CONSOLE", url: "https://orihina0193.github.io/my-calculator-shortcut/" },
+    { id: "ruins-treasury", name: "RUINS TREASURY", url: "https://orihina0193.github.io/Ruins-Treasury/" },
+    { id: "depletion-calc-video", name: "DEPLETION CALC (VIDEO)", url: "https://orihina0193.github.io/depletion-calc/" },
+    { id: "rat-hunt-planner", name: "RAT HUNT PLANNER", url: "https://orihina0193.github.io/Rat-Summoning/" },
+    { id: "sos-map-cost", name: "SOS MAP COST", url: "https://orihina0193.github.io/FAKE-SOS-MAP/" }
+  ] } ] };
+
+  /* ============ 小道具 ============ */
+  const $ = (s) => document.querySelector(s);
+  function h(tag, props, ...kids) {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(props || {})) {
+      if (k === "class") e.className = v;
+      else if (k === "value") e.value = v;
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+      else if (v === true) e.setAttribute(k, "");
+      else if (v !== false && v != null) e.setAttribute(k, v);
+    }
+    kids.flat().forEach((c) => {
+      if (c == null || c === false) return;
+      e.append(c.nodeType ? c : document.createTextNode(c));
+    });
+    return e;
+  }
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  const lsGet = () => { try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch (e) { return {}; } };
+  const lsSet = (o) => { try { localStorage.setItem(LS_KEY, JSON.stringify(o)); } catch (e) {} };
+  const toB64 = (s) => { let bin = ""; new TextEncoder().encode(s).forEach((x) => (bin += String.fromCharCode(x))); return btoa(bin); };
+  const fromB64 = (b) => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, "")), (c) => c.charCodeAt(0)));
+
+  /* ============ 見出し画像（フォルダ名がimgでもimagesでも出す） ============ */
+  (function () {
+    const hero = $("#hero");
+    const list = ["img/zombie.png", "images/zombie.png", "zombie.png"];
+    let i = 0;
+    hero.addEventListener("error", () => { i++; if (i < list.length) hero.src = list[i]; });
+  })();
+
+  /* ============ データ ============ */
+  let data = clone(FALLBACK);
+  let savedStr = JSON.stringify(data);
+  let selectedId = null;
+  let adminOpen = false;
+  let status = { text: "", kind: "" };
+
+  function normalize(raw) {
+    if (!raw || !Array.isArray(raw.categories)) return null;
+    const cats = raw.categories.map((c, i) => ({
+      id: String(c.id || "cat-" + (i + 1)),
+      name: String(c.name || "分類" + (i + 1)),
+      tools: (Array.isArray(c.tools) ? c.tools : []).map((t, j) => ({
+        id: String(t.id || "tool-" + (i + 1) + "-" + (j + 1)),
+        name: String(t.name || "名前なし"),
+        url: String(t.url || "")
+      }))
+    }));
+    return cats.length ? { categories: cats } : null;
   }
 
-  TOOLS.forEach((tool, i) => {
-    const b = document.createElement("button");
-    b.textContent = tool.name;
-    b.addEventListener("click", () => select(i));
-    tabs.appendChild(b);
+  function allTools() {
+    const out = [];
+    data.categories.forEach((cat) => cat.tools.forEach((tool) => out.push({ tool, cat })));
+    return out;
+  }
+  const findTool = (id) => allTools().find((x) => x.tool.id === id);
+
+  function slug(base, used) {
+    let s = base.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "item";
+    let id = s, n = 2;
+    while (used.has(id)) id = s + "-" + n++;
+    return id;
+  }
+
+  /* ============ 表示（タブ） ============ */
+  const viewer = $("#viewer");
+  const openLink = $("#openLink");
+
+  function renderTabs() {
+    const cur = findTool(selectedId);
+    const curCat = cur ? cur.cat : data.categories[0];
+    const catRow = $("#cats");
+    const toolRow = $("#tabs");
+    catRow.replaceChildren();
+    toolRow.replaceChildren();
+    catRow.hidden = data.categories.length <= 1;
+    data.categories.forEach((c) => {
+      catRow.append(h("button", {
+        type: "button",
+        class: c === curCat ? "active" : "",
+        onclick: () => { if (c.tools.length) selectTool(c.tools[0].id); }
+      }, c.name));
+    });
+    (curCat ? curCat.tools : []).forEach((t) => {
+      toolRow.append(h("button", {
+        type: "button",
+        class: t.id === selectedId ? "active" : "",
+        onclick: () => selectTool(t.id)
+      }, t.name));
+    });
+  }
+
+  function selectTool(id) {
+    const f = findTool(id);
+    if (!f) return;
+    selectedId = id;
+    if (viewer.getAttribute("src") !== f.tool.url) viewer.src = f.tool.url;
+    openLink.href = f.tool.url;
+    renderTabs();
+    try { history.replaceState(null, "", "#" + encodeURIComponent(id)); } catch (e) {}
+  }
+
+  function pickInitial() {
+    const raw = decodeURIComponent(location.hash.slice(1));
+    const flat = allTools();
+    if (raw && findTool(raw)) return raw;
+    if (/^\d+$/.test(raw) && flat[+raw]) return flat[+raw].tool.id;   // 昔の #0 #1 … も動く
+    return flat.length ? flat[0].tool.id : null;
+  }
+
+  function refreshView() {
+    if (!findTool(selectedId)) {
+      const first = allTools()[0];
+      selectedId = first ? first.tool.id : null;
+    }
+    if (selectedId) selectTool(selectedId); else renderTabs();
+  }
+
+  /* ============ GitHub ============ */
+  function cfgNow() { return Object.assign({}, DEFAULT_CFG, lsGet()); }
+  function apiUrl(c) { return "https://api.github.com/repos/" + c.owner + "/" + c.repo + "/contents/" + encodeURI(c.path); }
+  function apiHeaders(c) {
+    return { Accept: "application/vnd.github+json", Authorization: "Bearer " + c.token };
+  }
+
+  async function ghLoad() {
+    const c = cfgNow();
+    if (!c.token) throw new Error("トークンが未設定です。");
+    const r = await fetch(apiUrl(c), { headers: apiHeaders(c), cache: "no-store" });
+    if (r.status === 404) return { found: false };
+    if (!r.ok) throw new Error("読み込み失敗 (" + r.status + ")" + (r.status === 401 ? "：トークンが違うか期限切れです。" : ""));
+    const j = await r.json();
+    return { found: true, sha: j.sha, data: JSON.parse(fromB64(j.content)) };
+  }
+
+  async function ghSave() {
+    const c = cfgNow();
+    if (!c.token) throw new Error("トークンが未設定です。");
+    const head = await fetch(apiUrl(c), { headers: apiHeaders(c), cache: "no-store" });
+    let sha;
+    if (head.ok) sha = (await head.json()).sha;
+    else if (head.status !== 404) throw new Error("保存前の確認に失敗 (" + head.status + ")");
+    const body = {
+      message: "Update tools.json from admin",
+      content: toB64(JSON.stringify(data, null, 2) + "\n")
+    };
+    if (sha) body.sha = sha;
+    const r = await fetch(apiUrl(c), {
+      method: "PUT",
+      headers: Object.assign({ "Content-Type": "application/json" }, apiHeaders(c)),
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) {
+      let msg = "";
+      try { msg = (await r.json()).message; } catch (e) {}
+      throw new Error("保存失敗 (" + r.status + ") " + msg + (r.status === 403 || r.status === 404 ? "\nトークンの権限（Contents: Read and write）と対象リポジトリを確認してください。" : ""));
+    }
+    savedStr = JSON.stringify(data);
+  }
+
+  function setStatus(text, kind) { status = { text, kind: kind || "" }; const el = $("#status"); if (el) { el.textContent = text; el.className = kind || ""; } }
+  function updateDirty() { const el = $("#dirty"); if (el) el.textContent = JSON.stringify(data) !== savedStr ? "● 未保存の変更があります" : ""; }
+
+  /* ============ 管理画面 ============ */
+  function move(arr, i, d) {
+    const j = i + d;
+    if (j < 0 || j >= arr.length) return;
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  function changed(full) {
+    if (full) renderAdmin();
+    refreshView();
+    updateDirty();
+  }
+
+  function renderAdmin() {
+    const box = $("#admin");
+    box.hidden = !adminOpen;
+    if (!adminOpen) return;
+    const c = cfgNow();
+    const inp = {};
+    const field = (key, label, type) => {
+      inp[key] = h("input", { type: type || "text", value: c[key] || "", autocomplete: "off", spellcheck: "false" });
+      return h("div", { class: "row" }, h("label", {}, label), inp[key]);
+    };
+
+    const settings = h("div", { class: "panel" },
+      h("h2", {}, "管理モード"),
+      h("p", { class: "note" },
+        "トークンはこのブラウザの中だけに保存され、tools.json には書き込まれません。",
+        h("br"),
+        "トークンは、このリポジトリだけを対象にした「Contents: Read and write」の権限のものを使ってください。"),
+      field("owner", "オーナー名"),
+      field("repo", "リポジトリ名"),
+      field("path", "保存先ファイル"),
+      field("token", "トークン（PAT）", "password"),
+      h("div", { class: "row" },
+        h("button", { class: "btn", type: "button", onclick: () => {
+          lsSet({ owner: inp.owner.value.trim(), repo: inp.repo.value.trim(), path: inp.path.value.trim() || "tools.json", token: inp.token.value.trim() });
+          setStatus("設定を保存しました。", "ok");
+        } }, "設定を保存"),
+        h("button", { class: "btn", type: "button", onclick: loadFromGithub }, "GitHubから最新を読み込む")
+      )
+    );
+
+    const editor = h("div", { class: "panel" },
+      h("h2", {}, "ツールの編集"),
+      h("p", { class: "note" }, "名前やURLを直したり、並べ替えたり、分類を作って移動したりできます。タブの色や表示はすぐ変わりますが、「GitHubへ保存」を押すまでは、みんなのページには反映されません。"),
+      data.categories.map((cat, ci) => categoryBox(cat, ci)),
+      h("div", { class: "row" },
+        inp.newCat = h("input", { type: "text", placeholder: "新しい分類の名前（例：計算ツール）" }),
+        h("button", { class: "btn", type: "button", onclick: () => {
+          const name = inp.newCat.value.trim();
+          if (!name) return;
+          const used = new Set(data.categories.map((x) => x.id));
+          data.categories.push({ id: slug("cat-" + name, used), name, tools: [] });
+          changed(true);
+        } }, "＋ 分類を追加")
+      ),
+      h("div", { class: "row" },
+        h("button", { class: "btn primary", type: "button", onclick: saveToGithub }, "GitHubへ保存"),
+        h("span", { id: "dirty" })
+      ),
+      h("div", { id: "status", class: status.kind }, status.text)
+    );
+
+    box.replaceChildren(settings, editor);
+    updateDirty();
+  }
+
+  function categoryBox(cat, ci) {
+    const cats = data.categories;
+    const nameIn = h("input", { type: "text", value: cat.name, oninput: (e) => { cat.name = e.target.value; renderTabs(); updateDirty(); } });
+    const addName = h("input", { type: "text", placeholder: "ツール名（例：RAT HUNT PLANNER）" });
+    const addUrl = h("input", { type: "text", placeholder: "https://…github.io/…/" });
+
+    return h("div", { class: "cat-box" },
+      h("div", { class: "cat-head" },
+        h("h3", {}, "分類"),
+        nameIn,
+        h("button", { class: "btn small", type: "button", disabled: ci === 0, onclick: () => { move(cats, ci, -1); changed(true); } }, "↑"),
+        h("button", { class: "btn small", type: "button", disabled: ci === cats.length - 1, onclick: () => { move(cats, ci, 1); changed(true); } }, "↓"),
+        h("button", { class: "btn small danger", type: "button", onclick: () => {
+          if (cat.tools.length) { setStatus("「" + cat.name + "」にはツールが残っています。先に別の分類へ移動してください。", "err"); renderAdmin(); return; }
+          if (cats.length <= 1) { setStatus("分類は最低1つ必要です。", "err"); renderAdmin(); return; }
+          if (!confirm("分類「" + cat.name + "」を削除しますか？")) return;
+          cats.splice(ci, 1);
+          changed(true);
+        } }, "削除")
+      ),
+      cat.tools.map((t, ti) => toolRow(cat, t, ti)),
+      h("div", { class: "row add-row" }, addName, addUrl,
+        h("button", { class: "btn small", type: "button", onclick: () => {
+          const name = addName.value.trim(), url = addUrl.value.trim();
+          if (!name || !/^https?:\/\//.test(url)) { setStatus("ツール名と、https:// から始まるURLを入れてください。", "err"); renderAdmin(); return; }
+          const used = new Set(allTools().map((x) => x.tool.id));
+          cat.tools.push({ id: slug(name, used), name, url });
+          setStatus("", "");
+          changed(true);
+        } }, "＋ ツールを追加"))
+    );
+  }
+
+  function toolRow(cat, t, ti) {
+    const cats = data.categories;
+    const moveSel = cats.length > 1 ? h("select", { onchange: (e) => {
+      const dest = cats.find((x) => x.id === e.target.value);
+      if (!dest || dest === cat) return;
+      cat.tools.splice(ti, 1);
+      dest.tools.push(t);
+      changed(true);
+    } }, cats.map((x) => h("option", { value: x.id, selected: x === cat }, "移動先：" + x.name))) : null;
+
+    return h("div", { class: "tool-row" },
+      h("div", { class: "row" },
+        h("input", { type: "text", value: t.name, oninput: (e) => { t.name = e.target.value; renderTabs(); updateDirty(); } }),
+        h("input", { type: "text", value: t.url, oninput: (e) => { t.url = e.target.value; if (t.id === selectedId) { openLink.href = t.url; } updateDirty(); }, onchange: () => refreshView() })
+      ),
+      h("div", { class: "row" },
+        h("button", { class: "btn small", type: "button", disabled: ti === 0, onclick: () => { move(cat.tools, ti, -1); changed(true); } }, "↑"),
+        h("button", { class: "btn small", type: "button", disabled: ti === cat.tools.length - 1, onclick: () => { move(cat.tools, ti, 1); changed(true); } }, "↓"),
+        moveSel,
+        h("button", { class: "btn small danger", type: "button", onclick: () => {
+          if (!confirm("「" + t.name + "」を削除しますか？\n（このツールの #" + t.id + " のURLは開けなくなります）")) return;
+          cat.tools.splice(ti, 1);
+          changed(true);
+        } }, "削除")
+      )
+    );
+  }
+
+  async function loadFromGithub() {
+    setStatus("読み込み中…", "");
+    try {
+      const r = await ghLoad();
+      if (!r.found) { setStatus("tools.json がまだありません。保存すると新しく作られます。", ""); return; }
+      const n = normalize(r.data);
+      if (!n) throw new Error("tools.json の形式が正しくありません。");
+      data = n;
+      savedStr = JSON.stringify(data);
+      setStatus("最新の内容を読み込みました。", "ok");
+      changed(true);
+    } catch (e) { setStatus(String(e.message || e), "err"); renderAdmin(); }
+  }
+
+  async function saveToGithub() {
+    const bad = allTools().find((x) => !x.tool.name.trim() || !/^https?:\/\//.test(x.tool.url.trim()));
+    if (bad) { setStatus("名前が空か、URLが https:// で始まっていないツールがあります：" + (bad.tool.name || "(名前なし)"), "err"); renderAdmin(); return; }
+    setStatus("保存中…", "");
+    try {
+      await ghSave();
+      setStatus("保存しました。ページに反映されるまで、1分ほどかかります。", "ok");
+      updateDirty();
+    } catch (e) { setStatus(String(e.message || e), "err"); }
+  }
+
+  $("#adminToggle").addEventListener("click", () => {
+    adminOpen = !adminOpen;
+    renderAdmin();
+    if (adminOpen) {
+      $("#admin").scrollIntoView({ behavior: "smooth" });
+      if (cfgNow().token) loadFromGithub();
+    }
   });
 
-  const start = parseInt(location.hash.slice(1), 10);
-  select(start >= 0 && start < TOOLS.length ? start : 0);
+  /* ============ 起動 ============ */
+  (async function start() {
+    try {
+      const r = await fetch("tools.json?_=" + Date.now(), { cache: "no-store" });
+      if (r.ok) {
+        const n = normalize(await r.json());
+        if (n) data = n;
+      }
+    } catch (e) { /* 予備データを使う */ }
+    savedStr = JSON.stringify(data);
+    selectedId = pickInitial();
+    refreshView();
+  })();
+})();
 </script>
 </body>
 </html>
