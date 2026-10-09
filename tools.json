@@ -1,0 +1,15 @@
+{
+  "categories": [
+    {
+      "id": "main",
+      "name": "TOOLS",
+      "tools": [
+        { "id": "wk-tactics-console", "name": "WK TACTICS CONSOLE", "url": "https://orihina0193.github.io/my-calculator-shortcut/" },
+        { "id": "ruins-treasury", "name": "RUINS TREASURY", "url": "https://orihina0193.github.io/Ruins-Treasury/" },
+        { "id": "depletion-calc-video", "name": "DEPLETION CALC (VIDEO)", "url": "https://orihina0193.github.io/depletion-calc/" },
+        { "id": "rat-hunt-planner", "name": "RAT HUNT PLANNER", "url": "https://orihina0193.github.io/Rat-Summoning/" },
+        { "id": "sos-map-cost", "name": "SOS MAP COST", "url": "https://orihina0193.github.io/FAKE-SOS-MAP/" }
+      ]
+    }
+  ]
+}
