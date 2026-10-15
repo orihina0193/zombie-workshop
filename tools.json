@@ -23,6 +23,11 @@
           "id": "rat-hunt-planner",
           "name": "RAT HUNT PLANNER",
           "url": "https://orihina0193.github.io/Rat-Summoning/"
+        },
+        {
+          "id": "tube-solver",
+          "name": "TUBE SOLVER",
+          "url": "https://orihina0193.github.io/tube-solver/"
         }
       ]
     }
