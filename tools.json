@@ -10,31 +10,37 @@
           "url": "https://orihina0193.github.io/my-calculator-shortcut/"
         },
         {
-          "id": "ruins-treasury",
-          "name": "RUINS TREASURY",
-          "url": "https://orihina0193.github.io/Ruins-Treasury/"
-        },
-        {
           "id": "depletion-calc-video",
           "name": "DEPLETION CALC (VIDEO)",
           "url": "https://orihina0193.github.io/depletion-calc/"
-        },
+        }
+      ]
+    },
+    {
+      "id": "cat-holiday-event",
+      "name": "HOLIDAY EVENT",
+      "tools": [
         {
           "id": "rat-hunt-planner",
           "name": "RAT HUNT PLANNER",
           "url": "https://orihina0193.github.io/Rat-Summoning/"
         },
         {
+          "id": "ruins-treasury",
+          "name": "RUINS TREASURY",
+          "url": "https://orihina0193.github.io/Ruins-Treasury/"
+        },
+        {
           "id": "tube-solver",
           "name": "TUBE SOLVER",
           "url": "https://orihina0193.github.io/tube-solver/"
+        },
+        {
+          "id": "sos-map",
+          "name": "SOS MAP",
+          "url": "https://orihina0193.github.io/FAKE-SOS-MAP/"
         }
       ]
-    },
-    {
-      "id": "cat-holiday-event",
-      "name": "Holiday Event",
-      "tools": []
     }
   ]
 }
