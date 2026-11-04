@@ -39,6 +39,11 @@
           "id": "sos-map",
           "name": "SOS MAP",
           "url": "https://orihina0193.github.io/FAKE-SOS-MAP/"
+        },
+        {
+          "id": "card-flip",
+          "name": "CARD FLIP",
+          "url": "https://orihina0193.github.io/card-flip-calc/"
         }
       ]
     }
