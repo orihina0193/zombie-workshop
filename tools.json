@@ -30,6 +30,11 @@
           "url": "https://orihina0193.github.io/tube-solver/"
         }
       ]
+    },
+    {
+      "id": "cat-holiday-event",
+      "name": "Holiday Event",
+      "tools": []
     }
   ]
 }
