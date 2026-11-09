@@ -51,6 +51,22 @@
           "url": "https://orihina0193.github.io/card-flip-calc/"
         }
       ]
+    },
+    {
+      "id": "cat-intel",
+      "name": "INTEL",
+      "tools": [
+        {
+          "id": "specialty",
+          "name": "SPECIALTY",
+          "url": "https://orihina0193.github.io/Chess-Layout/"
+        },
+        {
+          "id": "hero-database",
+          "name": "HERO DATABASE",
+          "url": "https://orihina0193.github.io/database/"
+        }
+      ]
     }
   ]
 }
