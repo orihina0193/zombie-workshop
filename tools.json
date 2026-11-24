@@ -10,6 +10,11 @@
           "url": "https://orihina0193.github.io/my-calculator-shortcut/"
         },
         {
+          "id": "scavenger",
+          "name": "SCAVENGER",
+          "url": "https://orihina0193.github.io/scavenger-calc/"
+        },
+        {
           "id": "depletion-calc-video",
           "name": "DEPLETION CALC (VIDEO)",
           "url": "https://orihina0193.github.io/depletion-calc/"
@@ -18,11 +23,6 @@
           "id": "achievement",
           "name": "ACHIEVEMENT",
           "url": "https://orihina0193.github.io/achievement-calc/"
-        },
-        {
-          "id": "scavenger",
-          "name": "SCAVENGER",
-          "url": "https://orihina0193.github.io/scavenger-calc/"
         }
       ]
     },
