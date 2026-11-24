@@ -18,6 +18,11 @@
           "id": "achievement",
           "name": "ACHIEVEMENT",
           "url": "https://orihina0193.github.io/achievement-calc/"
+        },
+        {
+          "id": "scavenger",
+          "name": "SCAVENGER",
+          "url": "https://orihina0193.github.io/scavenger-calc/"
         }
       ]
     },
