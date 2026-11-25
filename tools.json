@@ -15,14 +15,19 @@
           "url": "https://orihina0193.github.io/scavenger-calc/"
         },
         {
-          "id": "depletion-calc-video",
-          "name": "DEPLETION CALC (VIDEO)",
-          "url": "https://orihina0193.github.io/depletion-calc/"
+          "id": "break-loose",
+          "name": "BREAK LOOSE",
+          "url": "https://orihina0193.github.io/Break-Loose/"
         },
         {
           "id": "achievement",
           "name": "ACHIEVEMENT",
           "url": "https://orihina0193.github.io/achievement-calc/"
+        },
+        {
+          "id": "depletion-calc-video",
+          "name": "DEPLETION CALC (VIDEO)",
+          "url": "https://orihina0193.github.io/depletion-calc/"
         }
       ]
     },
